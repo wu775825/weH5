@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="../css/base.css">
+  <link rel="stylesheet" type="text/css" href="../css/weui.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/jquery-weui.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/main.css">
+  <title>信息修改</title>
+  <style type="text/css"> 
+    /*header*/
+    .my-header {
+      height: 6.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      background: #fff;
+    }
+    .profile {
+      margin-top: 0.75rem;
+    }
+    .profile .head-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+    .userName {
+      margin-top: 0.3rem;
+      color: #555;
+    }
+    /*user info*/
+    .user-info {
+      background: #fff;
+    }
+    .user-info .weui-cell {
+      font-size: 0.85rem;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .user-info .weui-input {
+      text-align: right;
+      color: #000;
+    }
+    .user-info span.weui-cell__ft {
+      margin-left: 6px;
+    }
+    .toolbar .title {
+      background: #28b3ea;
+      color: #fff;
+    }
+    .toolbar .picker-button {
+      color: #fff;
+    }
+    #confirm {
+      margin-top: 2rem;
+      width: 95%;
+      background: #28b3ea;
+    }
+    /* timePicker style*/
+    .datetime-picker .picker-items>div:nth-child(2),
+    .datetime-picker .picker-items>div:nth-child(4) {
+      margin: 0 0.95rem;
+      color: #28b3ea;
+    }
+    .weui-picker-modal {
+      height: 14rem;
+    }
+    .weui-picker-modal .picker-item {
+      height: 48px;
+      line-height: 48px;
+    }
+    .weui-picker-modal .picker-center-highlight {
+      height: 48px;
+      margin-top: -24px;
+    }
+    .weui-picker-modal .picker-item.picker-selected {
+      color: #28b3ea;
+    }
+  </style>
+</head>
+<body>
+  <!-- header -->
+  <header class="my-header">
+    <div class="profile">
+      <img src="../img/no-data.png" class="head-photo">
+    </div>
+    <p class="userName">--</p>
+  </header>
+
+  <!-- user info -->
+  <section class="user-info">
+    <div class="weui-cell">
+      <div class="weui-cell__bd">性别</div>
+      <div class="weui-cell__ft">
+        <input id="sex" class="weui-input" type="text" value="">
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__bd">年龄</div>
+      <div class="weui-cell__ft">
+        <input id="age" class="weui-input" type="text" value="1995-06-11 ">
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__bd">身高</div>
+      <div class="weui-cell__ft height">
+        <input id="height" class="weui-input" type="number" value="">
+      </div>
+      <span class="weui-cell__ft">cm</span>
+    </div>
+  </section>
+  <button class="weui-btn weui-btn_primary confirm" id="confirm">确认修改</button>
+
+  <!-- script -->
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-weui.min.js"></script>
+  <script type="text/javascript" src="../js/echarts.min.js"></script>
+  <script type="text/javascript" src="../js/swiper.min.js"></script>
+  <script type="text/javascript" src="../js/dlc.js"></script>
+  <script type="text/javascript" src="../js/main.js"></script>
+  <script type="text/javascript">
+    $(function () {
+
+      var sex = '', off = 0;
+
+      // 让height输入框失焦
+      $("#sex, #age").click(function(event){
+        $('#height').blur();
+        event.stopPropagation();
+      });
+
+      $("#sex").picker({
+        title: "请选择您的性别",
+        cols: [
+          {
+            textAlign: 'center',
+            values: ['男', '女']
+          }
+        ]
+      });
+
+      // jquery-weui timePicker
+      $("#age").datetimePicker({
+        times: function () {
+          return [
+            
+          ];
+        },
+        max: '2018-12-31'
+      });
+      // 修改jquery-weui Toast 默认时间
+      $.toast.prototype.defaults.duration = 1200;
+
+      // *dlc 逻辑 
+      if(getUrlParam('opendid')){
+        localStorage.setItem('wx_openid',getUrlParam('opendid'));
+        localStorage.setItem('hid',getUrlParam('hid'));
+      }else{
+      }
+
+
+      //初始化
+      $.ajax({
+        type:"POST",
+        data:{
+          api_name:'getNickImg',
+          openid:localStorage.getItem('wx_openid')
+        },
+        url: location.origin+'/freeBalance/mock/getNickImg.json',
+        dataType:"json",
+        success:function(data){
+          console.log(data);
+          var res = data.data;
+          if(data.code === 1){
+            $('.head-photo').attr('src', res.headimg);
+            $('.userName').text(res.nickname);
+          } else{
+            console.log(data.msg);
+          }
+        }
+      }); 
+        //  250 > height > 49
+        $('#height').change(function () {
+          if ($('#height').val() < 49) {
+            $('#height').val('');
+            $.toast("身高小于最小值", "text");
+          }
+          if ($('#height').val() > 250) {
+            $('#height').val('');
+            $.toast("身高超过最大值", "text");
+          }
+        });
+        
+        //注册
+        $('#confirm').click(function(){
+          var times = $('#age').val();
+          var height = $('#height').val();
+          sex = $('#sex').val();
+          // '1'男 '2'女
+          if (sex !== '') {
+            sex = $('#sex').val() === '男' ? '1' : '2';
+          }
+          
+          console.log(times);
+          console.log(sex);
+          console.log(height);
+
+          if(sex === ''){
+            $.toast("请选择您的性别", "text");
+          } else if(height === ''){
+            $.toast("请输入您的身高", "text");
+          } else {
+              if(off){
+                return false;
+              }
+              off = 1;
+              // 去除height小数
+              height = Math.floor(height);
+              $.showLoading('正在保存数据');
+              $.ajax({
+                type: "POST",
+                data: {api_name:'register', sex: sex, tall: height, birthday: times, openid:localStorage.getItem('wx_openid'), hid:localStorage.getItem('hid')},
+                url: location.origin+'/freeBalance/mock/getHealth.json',
+                dataType: "json",
+                success: function(res){
+                  console.log(res);
+                  if(res.code === 1){
+                    $.hideLoading();
+                    $.toast('修改成功', 'success');
+                    setTimeout(function(){
+                      location.replace('person.html');
+                    },2000);
+                  } else {
+                    off = 0;
+                    $.hideLoading();
+                    $.toast('保存失败', 'cancel');
+                  }
+                },
+                error: function () {
+                  $.hideLoading();
+                  $.toptip('保存失败', 'error');
+                  off = 0; //请求失败时重置off
+                }
+              });
+          }
+        });
+      
+    });
+  </script>
+</body>
+</html>

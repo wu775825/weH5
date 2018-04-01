@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="../css/base.css">
+  <link rel="stylesheet" type="text/css" href="../css/weui.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/jquery-weui.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/main.css">
+  <title>附近的秤</title>
+  <style type="text/css">
+    body {
+      margin-bottom: 53px;
+    }
+    /*tabbar*/
+    .tab-icon {
+      background: url(../img/tabicon.png) 0px 0px no-repeat;
+      background-size: cover;
+    }
+    .tab-icon1 {
+      background-position: -27px 0;
+    }
+    .tab-icon2 {
+      background-position: -54px 0;
+    }
+    .tab-icon3 {
+      background-position: -81px 0;
+    }
+    .tab-active .weui-tabbar__label {
+      color: #3da2d5;
+    }
+    .tab-active .tab-icon {
+      background-position: -135px 0;
+    }
+    #container {
+      width: 100%;
+      height: calc(100% - 32px);
+      position: absolute;
+      background: #fff;
+    }
+    /*top-store*/
+    .bus-info {
+      position: absolute;
+      padding: 0.3rem 0.75rem;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      background-image: url(../img/more-row.png);
+      background-repeat: no-repeat;
+      background-size: 15px 18px;
+      background-position: 95% 50%;
+      z-index: 999;
+    }
+    .bus-head {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: #444;
+    }
+    .bus-info .bus-addr {
+      color: #666;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .bus-addr img {
+      width: 12px;
+      height: 13px;
+      margin-right: 3px;
+      cursor: pointer
+    }
+    /*tool-bottom*/
+    #tool {
+      width: 100%;
+      position: absolute;
+      height: 70px;
+      bottom: 9%;
+      left: 0;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    #tool .getlocal img, #tool .refresh img {
+      width: 2.3rem;
+      height: 2.3rem;
+    }
+
+    .getlocal {
+      width: 20%;
+      text-align: center;
+    }
+
+    #nearDevice {
+      width: 50%;
+      text-align: center;
+    }
+    #nearDevice img {
+      width: 8.0rem;
+      height: 2.1rem;
+    }
+
+    .refresh {
+      width: 20%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- map container -->
+  <div id="container"></div>
+
+  <!-- top-store -->
+  <div id="topStore">
+    <!-- <div class="bus-info">
+      <h3 class="bus-head">博时特20180312205723</h3>
+      <p class="bus-addr"><img src="../img/history01.png"><span>龙岗南联地铁站</span></p>
+    </div> -->
+  </div>
+
+  <!-- tool-bottom -->
+  <div id="tool">
+    <p class="getlocal"><img src="../img/map_left.png"/></p>
+    <div id="nearDevice"><img src="../img/map_near.png"/></div>
+    <a class="refresh" id="sell_list"><img src="../img/map_refresh.png" alt=""/></a>
+  </div>
+
+  <!-- tabbar -->
+  <div id="myTabbar" class="weui-tabbar">
+    <a href="javascript:;" class="weui-tabbar__item">
+      <div class="weui-tabbar__icon tab-icon">
+      </div>
+      <p class="weui-tabbar__label">首页</p>
+    </a>
+    <a href="javascript:;" class="weui-tabbar__item tab-active">
+      <div class="weui-tabbar__icon tab-icon tab-icon1">
+      </div>
+      <p class="weui-tabbar__label">附近的秤</p>
+    </a>
+    <a href="javascript:;" class="weui-tabbar__item">
+      <div class="weui-tabbar__icon tab-icon tab-icon2">
+      </div>
+      <p class="weui-tabbar__label">我要PK</p>
+    </a>
+    <a href="javascript:;" class="weui-tabbar__item">
+      <div class="weui-tabbar__icon tab-icon tab-icon3">
+      </div>
+      <p class="weui-tabbar__label">我的</p>
+    </a>
+  </div>
+
+  <!-- script -->
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-weui.min.js"></script>
+  <script type="text/javascript" src="../js/echarts.min.js"></script>
+  <script type="text/javascript" src="../js/swiper.min.js"></script>
+  <script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+  <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp"></script>
+  <script type="text/javascript" src="../js/main.js"></script>
+  <script type="text/javascript">
+    $(function () {
+
+      var geolocation = new qq.maps.Geolocation("N6RBZ-AJN35-AACI2-Q2ICF-HYV6O-JRBBZ", "myapp");
+      var myGlobal = {} ;//局部全局对象，存储map地图对象
+      var options = {timeout: 8000};
+      var positionNum = 0;
+
+      function showPosition(position) {
+        positionNum++;
+        var lat = position.lat;
+        var lng = position.lng;
+        var center = new qq.maps.LatLng(lat,lng);
+        console.log('具体地址：' + position.addr + '经度：' + lng + '纬度'+ lat);
+
+        var map = new qq.maps.Map(document.getElementById('container'),{
+          center: new qq.maps.LatLng(lat,lng),
+          zoom: 13,
+                draggable: true,//手势控制, 用来设置地图是否能够鼠标拖拽，默认值为“可以”；
+                scrollwheel: true,//用来配置地图是否能够通过鼠标滚轮操作进行放大，默认值为“可以”；
+                disableDoubleClickZoom: false, // 用来配置地图是否可以通过鼠标双击进行放大，默认值为“可以”。
+                disableDefaultUI: true
+              });
+
+        myGlobal.map = map;
+
+        //创建marker
+        var marker = new qq.maps.Marker({
+          position: center,
+          map: map
+        });
+            
+        //自定义标注图标
+        var anchor = new qq.maps.Point(12, 24),
+        size = new qq.maps.Size(24, 24),
+        origin = new qq.maps.Point(0, 0),
+        markerIcon = new qq.maps.MarkerImage(
+          "../img/map-current.png",
+          size,
+          origin,
+          anchor
+          );
+        marker.setIcon(markerIcon);
+
+        $.ajax({
+          type:"post",
+          url: location.origin + "/freeBalance/mock/getMachineList.json",
+          dataType:'json',
+          data:{
+            api_name:'getMachineList',
+            lat:lat,
+            lng:lng,
+            openid:localStorage.getItem('wx_openid')
+          },
+          success:function(data){
+            var res = data.data;
+            console.log(res);
+            for(var i in res){
+              var logo1 = new qq.maps.LatLng(res[i].lat,res[i].lng);
+                        //创建marker
+                        var logo = new qq.maps.Marker({
+                          position: logo1,
+                          map: map
+                        });
+                        //自定义标注图标 46, 52
+                        var anchor = new qq.maps.Point(23, 52),
+                        size = new qq.maps.Size(46, 52),
+                        scaleSize = new qq.maps.Size(46, 52),
+                        origin = new qq.maps.Point(0, 0),
+                        markerIcon = new qq.maps.MarkerImage(
+                          "../img/map-on.png",
+                          size, 
+                          origin,
+                          anchor,
+                          scaleSize
+                        );
+                        logo.setIcon(markerIcon);
+
+                         //设置属性
+                         logo.name=res[i].machine_name;  
+                         logo.address= res[i].address;
+                         logo.id= res[i].shop_id;
+                         logo.lat=res[i].lat;
+                         logo.lng=res[i].lng;
+                         //console.log(logo.name)
+                         
+                        //点击地图上的店铺图标后，顶部显示信息框（店铺地址名称）
+                        qq.maps.event.addListener(logo, 'click', function(e) {
+                          var result = '';
+                          $('#topStore').show();
+                          // 点击图标高亮，原来的恢复初始图标
+                          if (myGlobal.LastTarget) {
+                            $(myGlobal.LastTarget).attr('src', '../img/map-on.png');
+                          }
+                          $(e.event.target).attr('src', '../img/map-on-active.png');
+                          result += '<div class="bus-info" data-lat="' + this.lat;
+                          result += '"data-lng="' + this.lng;
+                          result += '" data-address="' + this.address;
+                          result += '" data-name="' + this.name;
+                          result += '" data-shop_id="' + this.id;
+                          result += '"><h3 class="bus-head">'+this.name;
+                          result += '</h3> <p class="bus-addr"><img src="../img/history01.png"><span>';
+                          result += this.address+'</span> </p></div>';
+                          $('#topStore').html(result);
+                          // 存储上一个选中的图标
+                          myGlobal.LastTarget = e.event.target;
+                        });
+                      }
+                    },
+                    error: function (xhr) {
+                      console.log(xhr.status + ' ' + xhr.statusText);
+                    }
+        });
+              //附近设备
+              $('#nearDevice').click(function(){
+                window.location.href='nearDevice.html?lng='+lng+'&lat='+lat;
+              });
+      }
+          function showErr() {
+            positionNum++;
+            console.log('定位失败！' + positionNum);
+          }
+          geolocation.getLocation(showPosition, showErr, options);
+
+          // 重新定位
+          $('.getlocal').click(function () {
+            function gotoLocal(position) {
+              myGlobal.map.panTo(new qq.maps.LatLng(position.lat, position.lng));
+            }
+            geolocation.getLocation(gotoLocal, showErr, options);
+          });
+          // 刷新地图
+          $('.refresh').click(function () {
+            location.href='map.html';
+          });
+
+
+          // 传导航所需数据
+          $('#topStore').on('click','div.bus-info', function() {
+              var strHref = '';
+              strHref += 'shopDetails.html?';
+              strHref += 'id='+$(this).attr('data-shop_id');
+              strHref += '&eword='+$(this).data('name');
+              strHref += '&epointx='+$(this).data('lng');
+              strHref += '&epointy='+$(this).data('lat');
+              location.href = strHref;
+          });
+
+          // 底部tabbar导航事件
+          $('#myTabbar a').eq(0).click(function(){
+            location.href='index.html?opendid='+localStorage.getItem('wx_openid')+'&hid='+localStorage.getItem('hid');
+          });
+
+          $('#myTabbar a').eq(1).click(function(){
+            location.href='map.html';
+          });
+
+          $('#myTabbar a').eq(2).click(function(){
+            location.href='pk.html';
+          });
+
+          $('#myTabbar a').eq(3).click(function(){
+            location.href='person.html?status=1';
+          });
+    });
+  </script>
+</body>
+</html>

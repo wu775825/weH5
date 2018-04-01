@@ -1,0 +1,106 @@
+html {
+    font-size: 16px;
+}
+
+@media screen and (min-width: 375px) {
+    html {
+        /* iPhone6的375px尺寸作为16px基准，414px正好18px大小, 600 20px */
+        font-size: calc(100% + 2 * (100vw - 375px) / 39);
+        font-size: calc(16px + 2 * (100vw - 375px) / 39);
+    }
+}
+@media screen and (min-width: 414px) {
+    html {
+        /* 414px-1000px每100像素宽字体增加1px(18px-22px) */
+        font-size: calc(112.5% + 4 * (100vw - 414px) / 586);
+        font-size: calc(18px + 4 * (100vw - 414px) / 586);
+    }
+}
+@media screen and (min-width: 600px) {
+    html {
+        /* 600px-1000px每100像素宽字体增加1px(20px-24px) */
+        font-size: calc(125% + 4 * (100vw - 600px) / 400);
+        font-size: calc(20px + 4 * (100vw - 600px) / 400);
+    }
+}
+@media screen and (min-width: 1000px) {
+    html {
+        /* 1000px往后是每100像素0.5px增加 */
+        font-size: calc(137.5% + 6 * (100vw - 1000px) / 1000);
+        font-size: calc(22px + 6 * (100vw - 1000px) / 1000);
+    }
+}
+
+body, html {
+  font-family: "Microsoft YaHei",sans-serif;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #f2f2f2;
+}
+
+ul li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*清除浮动*/
+.clearfix:before,
+.clearfix:after {
+    content: '';
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+
+.color-fff {
+  color: #fff;
+}
+.color-999 {
+  color: #999;
+}
+.color-666 {
+  color: #666;
+}
+.color-333 {
+  color: #333;
+}
+
+.text-center {
+  text-align: center;
+}
+.head-title {
+  padding: 8px 0 0 8px;
+  font-size: 16px;
+  color: #3da2d5;
+  font-weight: 500;
+}
+
+.jbh-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*animation*/
+.rotate90 {
+  transform: rotate(94deg);
+}
+
+*{
+  /*避免点击a标签或者注册了click事件的元素时产生高亮*/
+  -webkit-tap-highlight-color:rgba(255,255,255,0);
+  阻止长按图片之后呼出菜单提示复制的行为
+  -webkit-touch-callout:none; 
+}
+
+
+
+
+
+

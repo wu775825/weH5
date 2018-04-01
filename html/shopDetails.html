@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="../css/base.css">
+  <!-- <link rel="stylesheet" type="text/css" href="../css/weui.min.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="../css/jquery-weui.min.css"> -->
+  <link rel="stylesheet" type="text/css" href="../css/main.css">
+  <title></title>
+  <style type="text/css">
+    .bigImg {
+      height: 10.9375rem;
+    }
+    .bigImg img {
+      width: 100%;
+      height: 100%;
+    }
+    .detailsBox {
+      height: 5.34375rem;
+      padding: 0.9375rem 0 0.46875rem 0.9375rem;
+      position: relative;
+      margin-bottom: 1.0rem;
+      font-size: 0.85rem;
+      background: #fff;
+    }
+    .detailsBox div {
+      line-height: 1.7rem;
+    }
+    .detailsBox img {
+      width: 0.9375rem;
+      height: 0.9375rem;
+      margin-right: 0.4rem;
+
+    }
+    #name, .hot-recommend span {
+      font-size: 1.125rem;
+      margin: 0 0.4rem 0 0;
+    }
+    #name {
+      margin-bottom: 0.625rem;
+    }
+    .detailsBox .gotoImg {
+      width: 3.75rem;
+      height: 3.75rem;
+      position: absolute;
+      right: 1.8rem;
+      top: -1.825rem;
+    }
+    /*hot-recommend*/
+    .hot-recommend {
+      height: 2.0rem;
+      line-height: 2rem;
+      background: #fff;
+      position: relative;
+    }
+    .hot-recommend img {
+      width: 2rem;
+      position: absolute;
+    }
+    /*recommend Box*/
+    .recommendBox ul {
+      width: 21.71875rem;
+      padding: 0;
+      margin: 0.625rem auto 0;
+    }
+    .recommendBox ul li {
+      background: #fff;
+      text-align: center;
+      float: left;
+      margin-bottom: 0.45rem;
+    }
+    .recommendBox ul li:nth-child(2n) {
+      margin-left: 0.45rem;
+    }
+    .recommendBox ul li p {
+      margin: 0.5rem;
+    }
+    .recommendBox ul li img {
+      width: 10.625rem;
+      height: 8.21875rem;
+    }
+    @media only screen and (max-width: 356px) {
+      .recommendBox ul {
+        width: 20rem;
+      }
+      .recommendBox ul li img {
+        width: 9.625rem;
+        height: 7.21875rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- use my-rem 16px 1rem -->
+  <!-- container -->
+  <section>
+    <div class="bigImg"><img src="../img/no-data.png"/></div>
+    <div class="detailsBox">
+      <img  class="gotoImg" src="../img/shopDetail01.png">
+      <p id="name" class="color-333">--</p>
+      <div>
+        <img src="../img/shopDetail-phone.png"/>
+        <a href="javascript:;" class="color-666 font-15" id="tel">--</a>
+      </div>
+      <div class="color-666">
+        <img src="../img/history01.png"/><span id="address">--</span>
+      </div>
+    </div>
+    <div class="hot-recommend text-center color-333">
+      <span>热门推荐</span>
+      <img src="../img/shopDetail-hot.png"/>
+    </div>
+    <div class="recommendBox">
+      <ul class="clearfix color-333">
+        <!-- <li>
+          <img src="../img/no-data.png"/>
+          <p>儿童健康成长体验</p>
+        </li> -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- script -->
+  <script type="text/javascript" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/jquery-weui.min.js"></script>
+  <script type="text/javascript" src="../js/echarts.min.js"></script>
+  <script type="text/javascript" src="../js/swiper.min.js"></script>
+  <script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+  <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+  <script type="text/javascript" src="../js/dlc.js"></script>
+  <script type="text/javascript" src="../js/main.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      //去到这导航
+      $('.gotoImg').on('click', function() {
+          var strHref = 'http://apis.map.qq.com/tools/routeplan/eword='+getUrlParam('eword')+'&epointx='+getUrlParam('epointx')+'&epointy='+getUrlParam('epointy')+'?referer=myapp&key=N6RBZ-AJN35-AACI2-Q2ICF-HYV6O-JRBBZ';
+          console.log(strHref);
+          location.href = strHref;
+      });
+      //请求商家详情信息
+      $.ajax({
+        type:"post",
+        data:{
+          api_name:'getShopDetails',
+          openid:localStorage.getItem('wx_openid'),
+          id: getUrlParam('id')
+        },
+        url: location.origin + "/freeBalance/mock/getShopDetails.json",
+        dataType:'json',
+        success:function(data){
+          console.log(data);
+          var res = data.data;
+          var result='';
+          if(data.code === 1){
+            $('.bigImg img').attr('src',res.pic);
+            $('#name').text(res.name);
+            $('title').text(res.name);
+            $('#tel').attr('href','tel:'+res.phone).text(res.phone);
+            $('#address').text(res.address);
+
+            for(var k in res.pic_arr){
+              result+=  '<li>'+
+                        '<img src="'+res.pic_arr[k].pic+'" alt="" />'+
+                        '<p>'+res.pic_arr[k].title+'</p>'+
+                        '</li>';
+            }
+            $('.recommendBox ul').html(result); 
+          }
+        },
+        error: function (xhr) {
+          console.log(xhr.status + ' ' + xhr.statusText);
+        }
+      });
+
+    });
+  </script>
+</body>
+</html>
