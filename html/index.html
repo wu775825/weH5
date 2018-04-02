@@ -432,6 +432,7 @@
           }
         },
         error: function (xhr) {
+          //http状态码 + 说明
           console.log(xhr.status + ' ' + xhr.statusText);
         }
       });
@@ -451,11 +452,10 @@
               left: 8
           },
           grid: {
-              left: '-4%',
+              left: '6%',
               right: '6%',
               top: '45',
               height: 130,
-              containLabel: true
           },
           xAxis : {
               boundaryGap: false,
