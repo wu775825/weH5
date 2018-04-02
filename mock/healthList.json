@@ -22,7 +22,7 @@
         "standard_weight":"-21.60",
         "v":"6.00",
         "vip_id":"265",
-        "weight":"61.65"
+        "weight":"55.80"
       },
       {
         "age":"16",
@@ -44,7 +44,7 @@
         "standard_weight":"-21.60",
         "v":"6.00",
         "vip_id":"265",
-        "weight":"62.65"
+        "weight":"65.00"
       },
       {
         "age":"16",
@@ -66,7 +66,7 @@
         "standard_weight":"-21.60",
         "v":"6.00",
         "vip_id":"265",
-        "weight":"63.65"
+        "weight":"67.80"
       },
       {
         "age":"16",
@@ -110,7 +110,51 @@
         "standard_weight":"-21.60",
         "v":"6.00",
         "vip_id":"265",
-        "weight":"65.65"
+        "weight":"64.85"
+      },
+      {
+        "age":"16",
+        "bmi":"22.91",
+        "ctime":"2018-03-19",
+        "fat":"18.69",
+        "headimg":"http://thirdwx.qlogo.cn/mmopen/zRAuZnMY1vHaRFl1NHDlYibG1JNXFfXeD85jgTeAaCctdmUlbxIP5Bc011Phia9lTMwBCKFtkkowotD0cU6pvKiakvRbVicewSau/132",
+        "health_alert":"2",
+        "height":"168.00",
+        "hname":"正常",
+        "id":"3790",
+        "machine_code":"9BH000004",
+        "msg":"很棒哦！快去告诉身边的朋友吧！",
+        "number":"",
+        "score":"95",
+        "set_id":"1",
+        "sex":"男",
+        "standard_fat":"14-20",
+        "standard_weight":"-21.60",
+        "v":"6.00",
+        "vip_id":"265",
+        "weight":"68.15"
+      },
+      {
+        "age":"16",
+        "bmi":"22.91",
+        "ctime":"2018-03-19",
+        "fat":"18.69",
+        "headimg":"http://thirdwx.qlogo.cn/mmopen/zRAuZnMY1vHaRFl1NHDlYibG1JNXFfXeD85jgTeAaCctdmUlbxIP5Bc011Phia9lTMwBCKFtkkowotD0cU6pvKiakvRbVicewSau/132",
+        "health_alert":"2",
+        "height":"168.00",
+        "hname":"正常",
+        "id":"3790",
+        "machine_code":"9BH000004",
+        "msg":"很棒哦！快去告诉身边的朋友吧！",
+        "number":"",
+        "score":"95",
+        "set_id":"1",
+        "sex":"男",
+        "standard_fat":"14-20",
+        "standard_weight":"-21.60",
+        "v":"6.00",
+        "vip_id":"265",
+        "weight":"64.80"
       }
     ],
     "stat": [{"weight": "34.25", "ctime": "2018-03-19"},{"weight": "32.60", "ctime": "2018-03-20"},{"weight": "35.60", "ctime": "2018-03-21"},{"weight": "33.60", "ctime": "2018-03-22"},{"weight": "33.40", "ctime": "2018-03-23"},{"weight": "32.40", "ctime": "2018-03-24"}]
