@@ -249,6 +249,7 @@
 
       $.ajax({
         type:"post",
+        async: false,
         data:{
           api_name:'getPkRank',
           openid: localStorage.getItem('wx_openid'),
