@@ -248,21 +248,21 @@
       $.ajax({
         type:"post",
         data:{
-          api_name:'getPkList',
+          api_name:'getPkRank',
           openid: localStorage.getItem('wx_openid'),
           id: getUrlParam('id'),
         },
-        url: location.origin + "/freeBalance/mock/getPkList.json",
+        url: hfUrl() + "App/home/index",
         dataType:'json',
         success:function(data){
           var res = data.data;
           console.log(data);
           if(data.code === 1){
-            $('.head-photo').attr('src', res.pkList[0].headimg);
-            $('.userName').text(res.nickName);
+            $('.head-photo').attr('src', res.headimg);
+            $('.userName').text(res.nickname);
             $('#score').text(res.score);
-            $('#defeats').text(res.defeats);
-            $('#total').text(res.total);
+            $('#defeats').text(data.defeats);
+            $('#total').text(data.total);
           }
         }
       });
@@ -288,21 +288,22 @@
                   page: page,
                   size: size
                 },
-              url: location.origin + "/freeBalance/mock/getPkList.json",
+              url: hfUrl() + "App/home/index",
               dataType: 'json',
               success: function(data){
-                 var res = data.data;
+                 console.log(data);
                  console.log(page);
-                 var arrLen = res.pkList.length;
+                 console.log(size);
+                 var arrLen = data.pkList.length;
                  if(arrLen > 0 && data.code === 1) {
                    for(var i=0; i<arrLen; i++){
                       result += '<li class="weui-flex text-center">';
                       result += '<div class="nicknameAndImg weui-flex__item">';
-                      result += '<img src="'+ res.pkList[i].headimg +'" class="userPhoto">';
-                      result += '<span class="nickname">'+ res.pkList[i].nickName +'</span>';
+                      result += '<img src="'+ data.pkList[i].headimg +'" class="userPhoto">';
+                      result += '<span class="nickname">'+ data.pkList[i].nickname +'</span>';
                       result += '</div>';
-                      result += '<div class="userScore weui-flex__item">'+ res.pkList[i].score +'</div>';
-                      result += '<div class="userRank weui-flex__item">'+ res.pkList[i].ranks +'</div></li>';
+                      result += '<div class="userScore weui-flex__item">'+ data.pkList[i].score +'</div>';
+                      result += '<div class="userRank weui-flex__item">'+ data.pkList[i].ranks +'</div></li>';
                    }
                  } else {
                      // 锁定

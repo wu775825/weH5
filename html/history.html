@@ -105,7 +105,7 @@
                   pagesize: size,
                   openid:localStorage.getItem('wx_openid'),
                 },
-                url: location.origin + "/freeBalance/mock/healthList.json",
+                url: hfUrl() + "App/home/index",
                 dataType: 'json',
                 success: function(data){
                   var res = data.data.res;

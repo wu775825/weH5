@@ -129,7 +129,7 @@
                 lat:getUrlParam('lat'),
                 lng:getUrlParam('lng')
               },
-              url: location.origin + "/freeBalance/mock/getShopList.json",
+              url: hfUrl() + "App/home/index",
               dataType:'json',
               success: function(data){
                 console.log(data);
@@ -176,7 +176,7 @@
                   lat:getUrlParam('lat'),
                   lng:getUrlParam('lng')
                 },
-                url: location.origin + "/freeBalance/mock/getShopList.json",
+                url: hfUrl() + "App/home/index",
                 dataType:'json',
                 success: function(data){
                   var res = data.data;

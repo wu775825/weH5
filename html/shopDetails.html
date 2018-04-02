@@ -150,7 +150,7 @@
           openid:localStorage.getItem('wx_openid'),
           id: getUrlParam('id')
         },
-        url: location.origin + "/freeBalance/mock/getShopDetails.json",
+        url: hfUrl() + "App/home/index",
         dataType:'json',
         success:function(data){
           console.log(data);

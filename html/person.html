@@ -184,7 +184,7 @@
       $.ajax({
         type:"POST",
         data:{api_name:'getNickImg',openid:localStorage.getItem('wx_openid')},
-        url: location.origin+'/freeBalance/mock/getNickImg.json',
+        url: hfUrl() + "App/home/index",
         dataType:"json",
         success:function(data){
           console.log(data.data);

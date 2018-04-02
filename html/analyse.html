@@ -239,10 +239,10 @@
           openid:localStorage.getItem('wx_openid'),
           id:localStorage.getItem('hid')
         },
-        url: location.origin + '/freeBalance/mock/getHealth.json',
+        url: hfUrl() + "App/home/index",
         dataType:'json',
         success: function (data) {
-          console.log(data);
+          console.log(data.nickname);
           var res = data.data;
           if(data.code === 1){
             $('#height').text(res.height);
