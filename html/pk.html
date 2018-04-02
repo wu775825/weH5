@@ -244,6 +244,8 @@
       var page = 0;
       // 每页展示10个
       var size = 10;
+      // 排名变量
+      var myRank = 0;
 
       $.ajax({
         type:"post",
@@ -256,6 +258,7 @@
         dataType:'json',
         success:function(data){
           var res = data.data;
+          var result = '';
           console.log(data);
           if(data.code === 1){
             $('.head-photo').attr('src', res.headimg);
@@ -263,6 +266,14 @@
             $('#score').text(res.score);
             $('#defeats').text(data.defeats);
             $('#total').text(data.total);
+            result += '<li class="weui-flex text-center">';
+            result += '<div class="nicknameAndImg weui-flex__item">';
+            result += '<img src="'+ res.headimg +'" class="userPhoto">';
+            result += '<span class="nickname">'+ res.nickname +'</span>';
+            result += '</div>';
+            result += '<div class="userScore weui-flex__item">'+ res.score +'</div>';
+            result += '<div class="userRank weui-flex__item">'+ data.rank +'</div></li>';
+            $('.rank-list').append(result);
           }
         }
       });
@@ -297,13 +308,14 @@
                  var arrLen = data.pkList.length;
                  if(arrLen > 0 && data.code === 1) {
                    for(var i=0; i<arrLen; i++){
+                      myRank++;
                       result += '<li class="weui-flex text-center">';
                       result += '<div class="nicknameAndImg weui-flex__item">';
                       result += '<img src="'+ data.pkList[i].headimg +'" class="userPhoto">';
                       result += '<span class="nickname">'+ data.pkList[i].nickname +'</span>';
                       result += '</div>';
                       result += '<div class="userScore weui-flex__item">'+ data.pkList[i].score +'</div>';
-                      result += '<div class="userRank weui-flex__item">'+ data.pkList[i].ranks +'</div></li>';
+                      result += '<div class="userRank weui-flex__item">'+ myRank + '</div></li>';
                    }
                  } else {
                      // 锁定
