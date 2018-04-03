@@ -180,6 +180,9 @@
           if(data.code === 1){
             $('.head-photo').attr('src', res.headimg);
             $('.userName').text(res.nickname);
+            $('#sex').val(res.sex === '1' ? '男' : '女');
+            $('#height').val(res.tall);
+            $('#age').val(res.birthday);
           } else{
             console.log(data.msg);
           }
