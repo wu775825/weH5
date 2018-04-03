@@ -580,7 +580,7 @@
             //将体重时间存入数组，绘制表格
             for(var i in data.data.res){
               weights.push(data.data.res[i].weight * 2);
-              times.push(data.data.res[i].ctime.substr(5));
+              times.push(data.data.res[i].ctime.substr(5,5));
             }
             $('.lastWeight').text(weights[1]);
           } else {
