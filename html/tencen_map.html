@@ -40,80 +40,162 @@
     </div>
 </div>
 
+<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         setTimeout(function () {
-            // 百度地图API功能
-            var map = new qq.maps.Map("baiduDituMap", {
-                // 地图的中心地理坐标。
-                center: new qq.maps.LatLng('{$map.lat}', '{$map.lng}'),
-                zoom: 13,
-                position : new qq.maps.LatLng('{$map.lat}', '{$map.lng}'),
-                map:map
-            });
+            var geolocation = new qq.maps.Geolocation("6ODBZ-I7F33-J5G3Y-YFYNQ-SVPOV-MPBGI", "hifans");
+            var options = {timeout: 8000};
+            var positionNum = 0;
+            var geocoder,map = null;
+            var city = '';
 
-            //建立一个自动完成的对象
-//            var ac = new qq.maps.Autocomplete({
-//                "input": "baiduDituaddress",
-//                "location": map
-//            });
+            function showMap(position) {
+              positionNum++;
+              var lat = position.lat;
+              var lng = position.lng;
+              var center = new qq.maps.LatLng(lat,lng);
 
-//            var marker = new qq.maps.Marker(new qq.maps.Point(map.getCenter().lng, map.getCenter().lat));
-            // 初始化地图,设置城市和地图级别。
-            if ('{$map.lng}' != '' || '{$map.lat}' != '') {
-                //初始化
-                var point = new qq.maps.Point('{$map.lng}', '{$map.lat}');
-                map.centerAndZoom(point, 14);
-                marker = new qq.maps.Marker(new qq.maps.Point('{$map.lng}', '{$map.lat}'));
-                map.addOverlay(marker);
-            } else {
-                // 创建地址解析器实例
-                var myGeo = new qq.maps.Geocoder();
-                // 将地址解析结果显示在地图上,并调整地图视野
-                myGeo.getPoint("张家港", function (point) {
-                    if (point) {
-                        map.centerAndZoom(point, 14);
-                        marker = new qq.maps.Marker(point);
-                        map.addOverlay(marker);
-                    }
-                }, "张家港");
-            }
-            //启用滚轮放大缩小，默认禁用
-            map.enableScrollWheelZoom();
-            //地图点击事件
-            map.addEventListener("click", function (e) {
-                //删除原有标注
-                map.removeOverlay(marker);
-                // 创建标注
-                marker = new qq.maps.Marker(new qq.maps.Point(e.point.lng, e.point.lat));
-                // 将标注添加到地图中
-                map.addOverlay(marker);
-                //文本框复制
-                $('#baiduDitulng').val(e.point.lng);
-                $('#baiduDitulat').val(e.point.lat);
-            });
-            map.addEventListener("tilesloaded", function (e) {
-                if ($('#baiduDituaddress').val() == '') {
-                    $('#baiduDituaddress').val('{$map.address}');
+              map = new qq.maps.Map(document.getElementById("baiduDituMap"),{
+                center: center,
+                zoom: 14
+              });
+              var markerOrigin = new qq.maps.Marker({
+                 position: center, 
+                 map:map
+               });
+              // 添加监听事件   获取鼠标单击事件
+              qq.maps.event.addListener(map,'click',function(event) {
+                var latLng = event.latLng,
+                lat = latLng.getLat().toFixed(6),
+                lng = latLng.getLng().toFixed(6);
+                $('#baiduDitulng').val(lng);
+                $('#baiduDitulat').val(lat);
+
+              });
+              qq.maps.event.addListener(map, 'click', function(event) {
+                    var marker = new qq.maps.Marker({
+                                    position:event.latLng, 
+                                    map:map
+                    });
+                    qq.maps.event.addListener(map, 'click', function(event) {
+                          marker.setMap(null);
+                    });
+                    markerOrigin.setMap(null);
+              });
+              //调用地址解析类
+              geocoder = new qq.maps.Geocoder({
+                complete : function(result){
+                    markerOrigin.setMap(null);
+                    map.setCenter(result.detail.location);
+                    markerOrigin = new qq.maps.Marker({
+                        map:map,
+                        position: result.detail.location
+                    });
+                    $('#baiduDitulng').val(result.detail.location.lng);
+                    $('#baiduDitulat').val(result.detail.location.lat);
                 }
-            })
-            //地图搜索按钮功能
+              });
+            }
+
+            function showErr() {
+              positionNum++;
+              console.log('定位失败！' + positionNum);
+            }
+            geolocation.getLocation(showMap, showErr, options);
+            //搜索地址功能前面需要 + 城市
+            geolocation.getIpLocation(function (position) {
+                city = position.city;
+            }, showErr);
+
+            function codeAddress() {
+                var address = city + document.getElementById("baiduDituaddress").value;
+                //通过getLocation();方法获取位置信息值
+                geocoder.getLocation(address);
+            }
+            // 地址搜索按钮事件
             $('#baiduDitustart').click(function () {
-                var txt = $('#baiduDituaddress').val();
-                // 创建地址解析器实例
-                var myGeo = new qq.maps.Geocoder();
-                // 将地址解析结果显示在地图上,并调整地图视野
-                myGeo.getPoint(txt, function (point) {
-                    if (point) {
-                        map.removeOverlay(marker);
-                        map.centerAndZoom(point, 16);
-                        marker = new qq.maps.Marker(point);
-                        map.addOverlay(marker);
-                        $('#baiduDitulng').val(point.lng);
-                        $('#baiduDitulat').val(point.lat);
-                    }
-                }, txt);
+                codeAddress();
             });
+            //input输入框回车事件
+            $("#baiduDituaddress").keydown(function(event){  
+                if(event.which == "13") {
+                  codeAddress();
+                }
+            });  
+
+    //         setTimeout(function () {
+    //             // 百度地图API功能
+    //             var map = new qq.maps.Map("baiduDituMap", {
+    //                 // 地图的中心地理坐标。
+    //                 center: new qq.maps.LatLng('{$map.lat}', '{$map.lng}'),
+    //                 zoom: 13,
+    //                 position : new qq.maps.LatLng('{$map.lat}', '{$map.lng}'),
+    //                 map:map
+    //             });
+
+    //             //建立一个自动完成的对象
+    // //            var ac = new qq.maps.Autocomplete({
+    // //                "input": "baiduDituaddress",
+    // //                "location": map
+    // //            });
+
+    // //            var marker = new qq.maps.Marker(new qq.maps.Point(map.getCenter().lng, map.getCenter().lat));
+    //             // 初始化地图,设置城市和地图级别。
+    //             if ('{$map.lng}' != '' || '{$map.lat}' != '') {
+    //                 //初始化
+    //                 var point = new qq.maps.Point('{$map.lng}', '{$map.lat}');
+    //                 map.centerAndZoom(point, 14);
+    //                 marker = new qq.maps.Marker(new qq.maps.Point('{$map.lng}', '{$map.lat}'));
+    //                 map.addOverlay(marker);
+    //             } else {
+    //                 // 创建地址解析器实例
+    //                 var myGeo = new qq.maps.Geocoder();
+    //                 // 将地址解析结果显示在地图上,并调整地图视野
+    //                 myGeo.getPoint("张家港", function (point) {
+    //                     if (point) {
+    //                         map.centerAndZoom(point, 14);
+    //                         marker = new qq.maps.Marker(point);
+    //                         map.addOverlay(marker);
+    //                     }
+    //                 }, "张家港");
+    //             }
+    //             //启用滚轮放大缩小，默认禁用
+    //             map.enableScrollWheelZoom();
+    //             //地图点击事件
+    //             map.addEventListener("click", function (e) {
+    //                 //删除原有标注
+    //                 map.removeOverlay(marker);
+    //                 // 创建标注
+    //                 marker = new qq.maps.Marker(new qq.maps.Point(e.point.lng, e.point.lat));
+    //                 // 将标注添加到地图中
+    //                 map.addOverlay(marker);
+    //                 //文本框复制
+    //                 $('#baiduDitulng').val(e.point.lng);
+    //                 $('#baiduDitulat').val(e.point.lat);
+    //             });
+    //             map.addEventListener("tilesloaded", function (e) {
+    //                 if ($('#baiduDituaddress').val() == '') {
+    //                     $('#baiduDituaddress').val('{$map.address}');
+    //                 }
+    //             })
+    //             //地图搜索按钮功能
+    //             $('#baiduDitustart').click(function () {
+    //                 var txt = $('#baiduDituaddress').val();
+    //                 // 创建地址解析器实例
+    //                 var myGeo = new qq.maps.Geocoder();
+    //                 // 将地址解析结果显示在地图上,并调整地图视野
+    //                 myGeo.getPoint(txt, function (point) {
+    //                     if (point) {
+    //                         map.removeOverlay(marker);
+    //                         map.centerAndZoom(point, 16);
+    //                         marker = new qq.maps.Marker(point);
+    //                         map.addOverlay(marker);
+    //                         $('#baiduDitulng').val(point.lng);
+    //                         $('#baiduDitulat').val(point.lat);
+    //                     }
+    //                 }, txt);
+    //             });
         }, 500);
     });
 
