@@ -107,7 +107,7 @@
       bottom: 6px;
       width: 100%;
     }
-    .swiper-pagination-switch {
+    .pagination .swiper-pagination-bullet {
       display: inline-block;
       width: 8px;
       height: 8px;
@@ -115,10 +115,17 @@
       background: rgba(255,255,255, 0);
       border: 1px solid #fff;
       margin: 0 3px;
+      opacity: 1;
       cursor: pointer;
     }
-    .swiper-active-switch {
+    .pagination .swiper-pagination-bullet-active {
       background: #fff;
+    }
+    .swiper-button-next, .swiper-button-prev {
+      width: 13.5px;
+      height: 22px;
+      margin-top: -11px;
+      background-size: cover;
     }
     /*history-weight*/
     .history-weight {
@@ -253,6 +260,9 @@
               </div>
             </div>
         </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
         <!-- 如果需要分页器 -->
         <div class="pagination"></div>
     </div>
@@ -373,9 +383,11 @@
         location.href='person.html?status=1';
       });
       // swiper轮播
-      $('.swiper-container').swiper({
-          loop: true,
-          pagination: '.pagination'
+      var mySwiper = new Swiper('.swiper-container',{
+        loop: true,
+        pagination: '.pagination',
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
       });
 
       // special-column click
@@ -428,7 +440,22 @@
             }
             $('#standarBmi').text(res.standard_fat === null ? '--':res.standard_fat);// 正常BMI范围
             //row动画
-            $('#row').addClass('rotate90');
+            switch(res.hname) {
+              case '偏瘦':
+               $('#row').addClass('rotate40');
+               break;
+              case '正常':
+               $('#row').addClass('rotate80');
+               break;
+              case '偏胖':
+               $('#row').addClass('rotate130');
+               break;
+              case '肥胖':
+               $('#row').addClass('rotate155');
+               break;
+              default:
+               $('#row').addClass('rotate80');
+            }
           }
         },
         error: function (xhr) {

@@ -260,14 +260,16 @@
                             $(myGlobal.LastTarget).attr('src', '../img/map-on.png');
                           }
                           $(e.event.target).attr('src', '../img/map-on-active.png');
-                          result += '<div class="bus-info" data-lat="' + this.lat;
-                          result += '"data-lng="' + this.lng;
-                          result += '" data-address="' + this.address;
-                          result += '" data-name="' + this.name;
-                          result += '" data-shop_id="' + this.id;
-                          result += '"><h3 class="bus-head">'+this.name;
+                          // 拼接点击后上方显示商家信息，从logo获取数据
+                          result += '<div class="bus-info" data-lat="' + e.target.lat;
+                          result += '"data-lng="' + e.target.lng;
+                          result += '" data-address="' + e.target.address;
+                          result += '" data-name="' + e.target.name;
+                          result += '" data-shop_id="' + e.target.id;
+                          result += '"><h3 class="bus-head">'+e.target.name;
                           result += '</h3> <p class="bus-addr"><img src="../img/history01.png"><span>';
-                          result += this.address+'</span> </p></div>';
+                          result += e.target.address+'</span> </p></div>';
+                          console.log(e);
                           $('#topStore').html(result);
                           // 存储上一个选中的图标
                           myGlobal.LastTarget = e.event.target;
