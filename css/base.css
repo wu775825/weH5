@@ -88,8 +88,19 @@ a {
 }
 
 /*animation*/
-.rotate90 {
-  transform: rotate(94deg);
+.rotate40 {
+  transform: rotate(40deg);
+}
+.rotate80 {
+  transform: rotate(80deg);
+}
+.rotate130 {
+  transform: rotate(130deg);
+  transition: transform 1.2s!important;
+}
+.rotate155 {
+  transform: rotate(155deg);
+  transition: transform 1.3s!important;
 }
 
 *{
