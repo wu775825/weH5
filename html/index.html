@@ -414,7 +414,7 @@
           if(data.code === 1){
             $('.height').text(res.height === null ? '--':res.height);
             $('#weight').text(res.weight * 2);
-            $('.bmi').text(res.fat === null ? '--':res.fat); // fat就是BMI字段
+            $('.bmi').text(res.bmi === null ? '--':res.bmi); //fat体脂字段
             $('.score').text(res.score === null ? '--':res.score);
             $('#weightType').text(res.hname === null ? '--': res.hname);
             // 标准体重=(身高cm-100)x0.9(kg)  标准体重(女)=(身高cm-100)x0.9(kg)-2.5(kg)

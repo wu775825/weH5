@@ -252,7 +252,7 @@
             $('#weight').text(res.weight * 2);
             $('.head-photo').attr('src',res.headimg);
             $('.userName').text(res.nickname);
-            $('#bmi').text((res.fat === null ? '--':res.fat)); // fat就是BMI字段
+            $('#bmi').text((res.bmi === null ? '--':res.bmi)); // fat 体脂字段
             // 标准体重=(身高cm-100)x0.9(kg)  标准体重(女)=(身高cm-100)x0.9(kg)-2.5(kg)
             var calc = Math.floor((res.height - 100) * 1.8);
             if (res.sex === '男') {
