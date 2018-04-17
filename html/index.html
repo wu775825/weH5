@@ -176,20 +176,22 @@
     }
     /*special-column*/
     .special-column {
-      height: 11.4rem;
       background: #fff;
       padding: 0 0.4rem 0.4rem;
     }
     .special-column .my-flex {
       display: flex;
       justify-content: space-around;
+      flex-wrap: wrap;
       margin: 7px 0 9px;
     }
     .special-column .my-flex .my-flex__item {
       width: 8.6rem;
       height: 4.4rem;
+      margin-top: 7px;
       cursor: pointer;
       color: #fff;
+      background-size: cover;
     }
     .special-column .my-flex__item p:first-child {
       margin-top: 23px;
@@ -199,22 +201,16 @@
       font-size: 0.6rem;
     }
     .special-sports {
-      margin-right: 8px;
       background: url(../img/sport-plan.jpg);
-      background-size: cover;
     }
     .special-diet {
       background: url(../img/diet-recommend.jpg);
-      background-size: cover;
     }
     .special-health {
-      margin-right: 8px;
       background: url(../img/health-knowledge.jpg);
-      background-size: cover;
     }
     .special-expert {
       background: url(../img/expert-advice.jpg);
-      background-size: cover;
     }
     footer {
       padding: 0.6rem 0;
@@ -302,24 +298,10 @@
   <section class="special-column">
     <h3 class="head-title">专栏</h3>
     <div class="my-flex">
-      <div class="my-flex__item text-center special-sports">
+      <!-- <div class="my-flex__item text-center special-sports">
         <p>运动计划</p>
         <p>Sports plan</p>
-      </div>
-      <div class="my-flex__item text-center special-diet">
-        <p>饮食推荐</p>
-        <p>Diet recommendation</p>
-      </div>
-    </div>
-    <div class="my-flex">
-      <div class="my-flex__item text-center special-health">
-        <p>健康常识</p>
-        <p>Health knowledge</p>
-      </div>
-      <div class="my-flex__item text-center special-expert">
-        <p>专家建议</p>
-        <p>Expert advice</p>
-      </div>
+      </div> -->
     </div>
   </section>
 
@@ -327,7 +309,7 @@
   <footer>
     <p>本产品分析结果仅供参考，不应成为诊断或治疗疾病的最终依据。</p>
     <div class="weui-footer">
-      <p>合作热线：0755-28910609  0755-28910196</p>
+      <p>合作热线：0755-28910609、28910196</p>
       <p class="weui-footer__text">CopyRight © www.10wanfen.com All Rights Reserved</p>
     </div>
   </footer>
@@ -390,14 +372,7 @@
         nextButton:'.swiper-button-next',
       });
 
-      // special-column click
-      $('.special-sports').click(function () {
-        location.href = 'specialColumnS.html';
-      });
-      $('.special-diet').click(function () {
-        location.href = 'specialColumnD.html';
-      });
-
+      
       // BMI说明框
       $('.person-bmi p:first-child').click(function () {
         $.alert("身体质量指数(BMI)是目前国际上常用的衡量人体胖瘦程度以及是否健康的一个标准", "BMI");
@@ -418,8 +393,8 @@
           openid:localStorage.getItem('wx_openid'),
           id:localStorage.getItem('hid')
         },
-        url: hfUrl() + "App/home/index",
         dataType:'json',
+        url: hfUrl() + "App/home/index",
         success: function (data) {
           console.log(data);
           var res = data.data;
@@ -598,7 +573,7 @@
           pagesize: 7, // 每页展示7个
           openid:localStorage.getItem('wx_openid'),
         },
-        url: hfUrl() + "App/home/index", 
+        url: hfUrl() + "App/home/index",
         dataType: 'json',
         success: function(data){
           console.log(data);
@@ -622,6 +597,36 @@
           console.log(xhr.status + ' ' + xhr.statusText);
           myChart.setOption(option);
         }
+      });
+
+      // 请求专栏列表
+      $.ajax({
+        type: 'post',
+        data: {
+          api_name: 'getSpecialSort'
+        },
+        url: hfUrl() + "App/home/index",
+        dataType: 'json',
+        success: function(data) {
+          var res = data.data;
+          var len = res.length;
+          var str = '';
+          for(var i in res) {
+            str += '<div class="my-flex__item text-center" style="background-image: url('+res[i].coverurl+')" data-id="'+res[i].id+'">';
+            str += '<p>'+res[i].title+'</p>';
+            str += '<p>'+res[i].subtitle+'</p>';
+            str += '</div>';
+          }
+          $('.special-column .my-flex').append(str);
+        },
+        error: function(xhr) {
+          console.log(xhr.status + ' ' + xhr.statusText);
+        }
+      });
+
+      // special-column click
+      $('.my-flex').on('click', 'div.my-flex__item', function () {
+        location.href = 'specialColumnD.html?id='+$(this).data('id');
       });
 
     });

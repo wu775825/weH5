@@ -8,6 +8,7 @@
   <meta name="format-detection" content="telephone=no,email=no">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="stylesheet" type="text/css" href="../css/base.css">
+  <link rel="stylesheet" type="text/css" href="../css/dropload.css">
   <link rel="stylesheet" type="text/css" href="../css/weui.min.css">
   <link rel="stylesheet" type="text/css" href="../css/jquery-weui.min.css">
   <link rel="stylesheet" type="text/css" href="../css/main.css">
@@ -51,6 +52,12 @@
       background-color: #fff;
       border-bottom: 1px solid #3da2d5;
     }
+    .weui-tab__bd {
+      padding-bottom: .75rem;
+    }
+    .quey-hide {
+      display: none;
+    }
     /*匹配ihpone5*/
     @media only screen and (max-width: 374px) {
       .article-item {
@@ -63,7 +70,7 @@
   <!-- navbar -->
   <nav class="my-navbar">
     <div class="weui-tab">
-      <div class="weui-navbar">
+      <div class="weui-navbar quey-hide">
         <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
           早餐
         </a>
@@ -82,38 +89,6 @@
           <!-- container -->
             <div class="container">
               <ul>
-                <li class="article-item">
-                  <img src="../img/diet01.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">黑豆南瓜粥</p>
-                    <p class="subtitle">Black bean pumpkin porridge</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet02.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">美龄粥</p>
-                    <p class="subtitle">Youthfulness porridge</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/specialColumn03.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">无糖胡萝卜泥馒头</p>
-                    <p class="subtitle">Steamed bun with sugar free carrot</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet03.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">三明治</p>
-                    <p class="subtitle">Vegetable sandwich</p>
-                  </div>
-                </li>
               </ul>
             </div>
         </div>
@@ -121,38 +96,6 @@
           <!-- container -->
             <div class="container">
               <ul>
-                <li class="article-item">
-                  <img src="../img/diet05.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">不甜但糖分高</p>
-                    <p class="subtitle">Sugar free</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet06.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">牛肉的好处</p>
-                    <p class="subtitle">The benefits of beef</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet08.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">营养沙拉</p>
-                    <p class="subtitle">Nutrition salad</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet07.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">健康饮食顺口溜</p>
-                    <p class="subtitle">Healthy eating jingles</p>
-                  </div>
-                </li>
               </ul>
             </div>
         </div>
@@ -160,38 +103,6 @@
           <!-- container -->
             <div class="container">
               <ul>
-                <li class="article-item">
-                  <img src="../img/diet09.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">冻鱼</p>
-                    <p class="subtitle">Frozen fish</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet10.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">干锅花菜</p>
-                    <p class="subtitle">Griddle cauliflower</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet11.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">晚餐快手菜</p>
-                    <p class="subtitle">Fast food for dinner</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet12.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">香菇鸡粥</p>
-                    <p class="subtitle">Mushroom chicken porridge</p>
-                  </div>
-                </li>
               </ul>
             </div>
         </div>
@@ -199,38 +110,6 @@
           <!-- container -->
             <div class="container">
               <ul>
-                <li class="article-item">
-                  <img src="../img/diet13.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">素煲仔饭</p>
-                    <p class="subtitle">Claypot rice</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet14.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">素食五芒星</p>
-                    <p class="subtitle">Vegetarian pentagram</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet15.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">笋干香菇炒青椒</p>
-                    <p class="subtitle">Dried mushrooms fried green pepper</p>
-                  </div>
-                </li>
-                <li class="article-item">
-                  <img src="../img/diet16.jpg">
-                  <div class="mask"></div>
-                  <div class="article-title text-center">
-                    <p class="title">金针菇</p>
-                    <p class="subtitle">Mushroom</p>
-                  </div>
-                </li>
               </ul>
             </div>
         </div>
@@ -244,5 +123,112 @@
   <script type="text/javascript" src="../js/echarts.min.js"></script>
   <script type="text/javascript" src="../js/swiper.min.js"></script>
   <script type="text/javascript" src="../js/main.js"></script>
+  <script type="text/javascript" src="../js/dlc.js"></script>
+  <script type="text/javascript" src="../js/dropload.min.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      var articalListId = getUrlParam('id');
+      // 页数
+      var page = 0;
+      // 每页展示10个
+      var size = 4;
+
+      // dropload
+      $('#tab1 .container').dropload({
+          scrollArea : window,
+          domDown : {
+              domClass   : 'dropload-down',
+              domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+              domLoad    : '<div class="dropload-load"><span class="loadings"></span>加载中...</div>',
+              domNoData  : '<div class="dropload-noData">人家也是有底线的</div>'
+          },
+          loadDownFn : function(me){
+            page++;
+            // 拼接HTML
+            var result = '';
+            $.ajax({
+              type: 'POST',
+              data:{
+                api_name:'getArticleList',
+                in: articalListId,
+                page: page,
+                size: size
+              },
+              url: hfUrl() + "App/home/index",
+              dataType: 'json',
+              success: function(data){
+                 console.log(data);
+                 console.log(page);
+                 var res = data.articleList;
+                 var arrLen = res.length;
+                 var hasTabbar = res[0].secondary !== "0" ? true : false;
+                 var strF = function (i) {
+                   result += '<li class="article-item" data-article_id="'+i.article_id+'">';
+                   result += '<img src="'+i.coverurl+'">';
+                   result += '<div class="mask"></div>';
+                   result += '<div class="article-title text-center">';
+                   result += '<p class="title">'+i.title+'</p>';
+                   result += '<p class="subtitle">'+i.subtitle+'</p>';
+                   result += '</div></li>';
+                 };
+
+                 if(arrLen > 0 && data.code === 1) {
+                    if (hasTabbar) {
+                      $('.my-navbar .weui-navbar').removeClass('quey-hide');
+                      for(var i=0; i<arrLen; i++){
+                         result = '';
+                         switch(res[i].secondary) {
+                           case "1":
+                             strF(res[i]);
+                             $('#tab1 ul').append(result);
+                             break;
+                           case "2":
+                             strF(res[i]);
+                             $('#tab2 ul').append(result);
+                             break;
+                           case "3":
+                             strF(res[i]);
+                             $('#tab3 ul').append(result);
+                             break;
+                           case "4":
+                             strF(res[i]);
+                             $('#tab4 ul').append(result);
+                             break;
+                           default:
+                             break;
+                         }
+                      }
+                   } else {
+                      $('.weui-navbar+.weui-tab__bd').css('padding-top', '0px');
+                      for(var i=0; i<arrLen; i++){
+                         strF(res[i]);
+                      }
+                      // 插入数据到页面，放到最后面
+                      $('#tab1 ul').append(result);
+                   }
+                 } else {
+                     // 锁定
+                     me.lock();
+                     // 无数据
+                     me.noData();
+                 }
+                 // 每次数据插入，必须重置
+                 me.resetload();
+                 // 为了测试，延迟1秒加载
+               },
+               error: function (xhr) {
+                 console.log(xhr.status);
+               }
+             });
+          },
+          threshold : 50
+      });
+      // ariticle-column click
+      $('.container>ul').on('click', 'li.article-item', function () {
+        location.href = 'article.html?id='+$(this).data('article_id');
+      });
+
+    });
+  </script>
 </body>
 </html>
