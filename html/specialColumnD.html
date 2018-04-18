@@ -12,7 +12,7 @@
   <link rel="stylesheet" type="text/css" href="../css/weui.min.css">
   <link rel="stylesheet" type="text/css" href="../css/jquery-weui.min.css">
   <link rel="stylesheet" type="text/css" href="../css/main.css">
-  <title>饮食推荐</title>
+  <title></title>
   <style type="text/css">
     .my-navbar .weui-navbar__item {
       padding: 0.6rem;
@@ -127,14 +127,17 @@
   <script type="text/javascript" src="../js/dropload.min.js"></script>
   <script type="text/javascript">
     $(function () {
-      var articalListId = getUrlParam('id');
+      var articleListId = getUrlParam('id');
+      // 设置页面标题
+      var articleTitle = localStorage.getItem(articleListId);
+      $('title').text(articleTitle);
       // 页数
       var page = 0;
       // 每页展示10个
       var size = 4;
 
       // dropload
-      $('#tab1 .container').dropload({
+      $('.my-navbar .weui-tab__bd').dropload({
           scrollArea : window,
           domDown : {
               domClass   : 'dropload-down',
@@ -143,14 +146,13 @@
               domNoData  : '<div class="dropload-noData">人家也是有底线的</div>'
           },
           loadDownFn : function(me){
-            page++;
             // 拼接HTML
             var result = '';
             $.ajax({
               type: 'POST',
               data:{
                 api_name:'getArticleList',
-                in: articalListId,
+                id: articleListId,
                 page: page,
                 size: size
               },
@@ -158,10 +160,9 @@
               dataType: 'json',
               success: function(data){
                  console.log(data);
-                 console.log(page);
                  var res = data.articleList;
                  var arrLen = res.length;
-                 var hasTabbar = res[0].secondary !== "0" ? true : false;
+                 //拼接文章列表
                  var strF = function (i) {
                    result += '<li class="article-item" data-article_id="'+i.article_id+'">';
                    result += '<img src="'+i.coverurl+'">';
@@ -173,6 +174,7 @@
                  };
 
                  if(arrLen > 0 && data.code === 1) {
+                    var hasTabbar = res[0].secondary !== "0" ? true : false;
                     if (hasTabbar) {
                       $('.my-navbar .weui-navbar').removeClass('quey-hide');
                       for(var i=0; i<arrLen; i++){
@@ -220,6 +222,7 @@
                  console.log(xhr.status);
                }
              });
+            page++;
           },
           threshold : 50
       });

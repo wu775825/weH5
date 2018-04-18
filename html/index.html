@@ -221,6 +221,19 @@
     footer p {
       padding: 0.2rem;
     }
+    @media only screen and (max-width: 370px) {
+      .special-column .my-flex .my-flex__item{
+        width: 8.3rem;
+        height: 4.1rem;
+      }
+    }
+    @media only screen and (max-width: 356px) {
+      .special-column .my-flex .my-flex__item{
+        width: 7.9rem;
+        height: 3.8rem;
+      }
+    }
+    
   </style>
 </head>
 <body>
@@ -616,6 +629,8 @@
             str += '<p>'+res[i].title+'</p>';
             str += '<p>'+res[i].subtitle+'</p>';
             str += '</div>';
+            //将专栏标题本地存储
+            localStorage.setItem(res[i].id, res[i].title);
           }
           $('.special-column .my-flex').append(str);
         },

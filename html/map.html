@@ -166,10 +166,12 @@
   <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp"></script>
   <script type="text/javascript" src="../js/main.js"></script>
   <script type="text/javascript">
+    var myGlobal = {} ;//局部全局对象，存储map地图对象
+
     $(function () {
 
       var geolocation = new qq.maps.Geolocation("6ODBZ-I7F33-J5G3Y-YFYNQ-SVPOV-MPBGI", "hifans");
-      var myGlobal = {} ;//局部全局对象，存储map地图对象
+      
       var options = {timeout: 8000};
       var positionNum = 0;
 
@@ -190,6 +192,8 @@
               });
 
         myGlobal.map = map;
+        myGlobal.lat = lat;
+        myGlobal.lng = lng;
 
         //创建marker
         var marker = new qq.maps.Marker({
@@ -280,10 +284,6 @@
                       console.log(xhr.status + ' ' + xhr.statusText);
                     }
         });
-              //附近设备
-              $('#nearDevice').click(function(){
-                window.location.href='nearDevice.html?lng='+lng+'&lat='+lat;
-              });
       }
           function showErr() {
             positionNum++;
@@ -297,6 +297,10 @@
               myGlobal.map.panTo(new qq.maps.LatLng(position.lat, position.lng));
             }
             geolocation.getLocation(gotoLocal, showErr, options);
+          });
+          //附近设备
+          $('#nearDevice').click(function(){
+            window.location.href='nearDevice.html?lng='+myGlobal.lng+'&lat='+myGlobal.lat;
           });
           // 刷新地图
           $('.refresh').click(function () {
